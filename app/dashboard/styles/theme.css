@@ -1,0 +1,178 @@
+:root {
+    --bg-color: #050810;
+    --panel-bg: rgba(10, 15, 28, 0.85);
+    --border-color: rgba(34, 211, 238, 0.18);
+    --border-color-glow: rgba(34, 211, 238, 0.4);
+    
+    --text-primary: #e8ecf4;
+    --text-secondary: #7c8699;
+    
+    --accent-cyan: #22d3ee;
+    --accent-violet: #b98cff;
+    
+    --listening-color: #22d3ee;
+    --speaking-color: #b98cff;
+    --processing-color: #e040fb;
+    --idle-color: #4a4e5c;
+    --error-color: #ff5c5c;
+    --success-color: #10b981;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    background-image: 
+        linear-gradient(rgba(34, 211, 238, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 211, 238, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: center;
+    color: var(--text-primary);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-cyan);
+}
+
+/* Glassmorphic Panel Card */
+.hud-panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 20px;
+    position: relative;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hud-panel:hover {
+    border-color: var(--border-color-glow);
+    box-shadow: 0 8px 32px 0 rgba(34, 211, 238, 0.05);
+}
+
+/* Angled corner details for panel headers */
+.hud-panel-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hud-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Display Titles */
+.display-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Interactive Buttons */
+.hud-button {
+    background: rgba(34, 211, 238, 0.08);
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    padding: 8px 16px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.1);
+}
+
+.hud-button:hover {
+    background: var(--accent-cyan);
+    color: #050810;
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+}
+
+.hud-button:active {
+    transform: scale(0.98);
+}
+
+.hud-button.secondary {
+    border-color: var(--text-secondary);
+    color: var(--text-secondary);
+    background: transparent;
+    box-shadow: none;
+}
+
+.hud-button.secondary:hover {
+    background: var(--text-secondary);
+    color: #050810;
+    box-shadow: 0 0 10px rgba(124, 134, 153, 0.3);
+}
+
+.hud-button.danger {
+    border-color: var(--error-color);
+    color: var(--error-color);
+    background: rgba(255, 92, 92, 0.08);
+    box-shadow: 0 0 8px rgba(255, 92, 92, 0.1);
+}
+
+.hud-button.danger:hover {
+    background: var(--error-color);
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(255, 92, 92, 0.4);
+}
+
+/* Fields */
+input[type="text"], input[type="password"], select, textarea {
+    background-color: rgba(5, 8, 16, 0.8);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 10px 14px;
+    outline: none;
+    font-size: 0.85rem;
+    width: 100%;
+    margin-top: 6px;
+    transition: all 0.2s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.2);
+}
+
+label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

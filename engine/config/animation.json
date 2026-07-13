@@ -1,0 +1,6 @@
+{
+  "idle": "#4c566a",
+  "listening": "#00f2fe",
+  "processing": "#7b1fa2",
+  "speaking": "#ff0844"
+}

@@ -1,0 +1,47 @@
+{
+  "browser.search": [
+    "open chrome and search",
+    "search for",
+    "google"
+  ],
+  "workspace.open": [
+    "open my workspace",
+    "open workspace"
+  ],
+  "schedule.today": [
+    "what's my schedule",
+    "tell me my schedule",
+    "what do i have today",
+    "what is my schedule today"
+  ],
+  "schedule.save": [
+    "add event to my schedule",
+    "save my schedule",
+    "add to my schedule",
+    "add to schedule",
+    "schedule event",
+    "add event"
+  ],
+  "schedule.clear": [
+    "clear my schedule",
+    "delete my schedule",
+    "clear local schedule",
+    "remove my schedule",
+    "reset my schedule"
+  ],
+  "apps.build_website": [
+    "build a website",
+    "start a website",
+    "create a website"
+  ],
+  "apps.open": [
+    "open"
+  ],
+  "weather.get": [
+    "what is the weather",
+    "tell me the weather",
+    "how is the weather today",
+    "weather today",
+    "what's the weather"
+  ]
+}

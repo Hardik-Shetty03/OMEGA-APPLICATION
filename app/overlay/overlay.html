@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Omega Overlay</title>
+    <link rel="stylesheet" href="overlay.css">
+    <!-- Load clean Inter font for the overlay input box -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="wrapper">
+        <input type="text" id="overlay-input" placeholder="Type a command..." style="opacity: 0; pointer-events: none; width: 0; transition: all 0.3s cubic-bezier(0.1, 0.8, 0.3, 1); background-color: rgba(10, 15, 28, 0.95); border: 1px solid var(--color-listening, #00f2fe); color: #e8ecf4; padding: 8px 12px; font-size: 0.85rem; outline: none; box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); font-family: 'Inter', sans-serif;">
+        <div id="container" class="idle">
+            <div class="triangle"></div>
+        </div>
+    </div>
+    
+    <script>
+        const container = document.getElementById('container');
+        const input = document.getElementById('overlay-input');
+        let socket = null;
+
+        async function loadColors() {
+            try {
+                const colors = await window.electronAPI.getAnimation();
+                if (colors) {
+                    document.documentElement.style.setProperty('--color-idle', colors.idle || '#4c566a');
+                    document.documentElement.style.setProperty('--color-listening', colors.listening || '#00f2fe');
+                    document.documentElement.style.setProperty('--color-processing', colors.processing || '#7b1fa2');
+                    document.documentElement.style.setProperty('--color-speaking', colors.speaking || '#ff0844');
+                }
+            } catch (e) {
+                console.error('Error fetching overlay colors:', e);
+            }
+        }
+
+        // Click handler to expand and type commands
+        container.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (input.style.opacity === '0') {
+                window.electronAPI.expandOverlay();
+                input.style.width = '220px';
+                input.style.opacity = '1';
+                input.style.pointerEvents = 'auto';
+                
+                // Trigger spoken assistant question
+                if (socket && socket.readyState === WebSocket.OPEN) {
+                    socket.send(JSON.stringify({ type: 'speak', value: 'Please type the command.' }));
+                }
+                
+                setTimeout(() => input.focus(), 100);
+            } else {
+                collapseInput();
+            }
+        });
+
+        function collapseInput() {
+            input.style.width = '0';
+            input.style.opacity = '0';
+            input.style.pointerEvents = 'none';
+            input.value = '';
+            window.electronAPI.collapseOverlay();
+        }
+
+        // Collapse on blur or Enter
+        input.addEventListener('blur', () => {
+            setTimeout(collapseInput, 150);
+        });
+
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const text = input.value.trim();
+                if (text && socket && socket.readyState === WebSocket.OPEN) {
+                    socket.send(JSON.stringify({ type: 'command', value: text }));
+                }
+                collapseInput();
+            }
+        });
+
+        function connectWS() {
+            socket = new WebSocket('ws://localhost:8765');
+            
+            socket.onopen = () => {
+                console.log('[Overlay WS] Connected to Python Engine.');
+                loadColors();
+            };
+
+            socket.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.type === 'state') {
+                        const state = data.value; // idle, listening, processing, speaking
+                        container.className = state;
+                        loadColors();
+                    }
+                } catch (e) {
+                    console.error('[Overlay WS] Error parsing message:', e);
+                }
+            };
+
+            socket.onclose = () => {
+                console.log('[Overlay WS] Disconnected. Retrying in 1.5 seconds...');
+                setTimeout(connectWS, 1500);
+            };
+
+            socket.onerror = (error) => {
+                socket.close();
+            };
+        }
+
+        connectWS();
+    </script>
+</body>
+</html>

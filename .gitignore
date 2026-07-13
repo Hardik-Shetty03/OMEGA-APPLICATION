@@ -1,0 +1,25 @@
+# Python virtual env & caches
+engine/venv/
+engine/__pycache__/
+engine/**/*.pyc
+engine/**/*.pyo
+engine/**/*.pyd
+
+# API keys & OAuth secrets
+engine/.env
+engine/config/credentials.json
+engine/config/token.json
+
+# Node/Electron packages
+app/node_modules/
+app/dist/
+
+# Application execution logs
+*.log
+engine/omega.log
+
+# System & IDE configurations
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

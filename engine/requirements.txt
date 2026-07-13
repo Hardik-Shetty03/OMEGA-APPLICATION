@@ -1,0 +1,14 @@
+faster-whisper
+edge-tts
+sounddevice
+numpy
+keyboard
+pyautogui
+pygetwindow
+rapidfuzz
+pygame
+google-auth-oauthlib
+google-api-python-client
+python-dotenv
+pyttsx3
+websockets
